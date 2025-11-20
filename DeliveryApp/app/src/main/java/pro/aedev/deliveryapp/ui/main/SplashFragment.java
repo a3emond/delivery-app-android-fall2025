@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import pro.aedev.deliveryapp.data.db.AppDatabase;
 import pro.aedev.deliveryapp.databinding.FragmentSplashBinding;
+import pro.aedev.deliveryapp.util.NavigationHelper;
 
 public class SplashFragment extends Fragment {
 
@@ -25,6 +26,7 @@ public class SplashFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         binding = FragmentSplashBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -32,7 +34,7 @@ public class SplashFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+        binding = null; // prevent memory leaks
     }
 
     @Override
@@ -40,22 +42,15 @@ public class SplashFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Load DB in background thread
         new Thread(() -> {
-            AppDatabase.getInstance(requireContext()).getDb();
+
+            AppDatabase.getInstance(requireContext()).getDb(); // just load db instance and do nothing with it. Ensure DB is created.
 
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 if (!isAdded()) return;
 
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(
-                                android.R.anim.fade_in,
-                                android.R.anim.fade_out
-                        )
-                        .replace(((ViewGroup) requireActivity()
-                                .findViewById(android.R.id.content))
-                                .getId(), new IntroFragment())
-                        .commit();
+                NavigationHelper.navigateNoBackstack(requireActivity(), new IntroFragment());
 
             }, MIN_DELAY);
 
