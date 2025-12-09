@@ -10,8 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import pro.aedev.deliveryapp.databinding.FragmentMainMenuBinding;
-import pro.aedev.deliveryapp.ui.route.ManageRoutesFragment;
-import pro.aedev.deliveryapp.ui.route.AssignRouteFragment;
+import pro.aedev.deliveryapp.ui.route.manageview.ManageRoutesFragment;
+import pro.aedev.deliveryapp.ui.route.assignview.AssignRouteFragment;
 import pro.aedev.deliveryapp.ui.subscription.AddSubscriptionFragment;
 import pro.aedev.deliveryapp.ui.subscription.RemoveSubscriptionFragment;
 import pro.aedev.deliveryapp.ui.deliverer.AddDelivererFragment;

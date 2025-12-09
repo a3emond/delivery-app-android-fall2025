@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import pro.aedev.deliveryapp.data.db.AppDatabase;
 import pro.aedev.deliveryapp.model.Subscription;
@@ -13,23 +14,29 @@ import java.util.List;
 
 public class SubscriptionRepository {
 
+    private static final String TAG = "SubscriptionRepository";
     private final SQLiteDatabase db;
 
     public SubscriptionRepository(Context ctx) {
         db = AppDatabase.getInstance(ctx).getDb();
+        Log.d(TAG, "Repository initialized");
     }
 
     public long insert(Subscription s) {
+        Log.d(TAG, "insert client=" + s.getClientId() + " route=" + s.getRouteId());
         ContentValues v = new ContentValues();
         v.put("client_id", s.getClientId());
         v.put("route_id", s.getRouteId());
         v.put("address", s.getAddress());
         v.put("start_date", s.getStartDate());
         v.put("end_date", s.getEndDate());
-        return db.insert("subscriptions", null, v);
+        long id = db.insert("subscriptions", null, v);
+        Log.d(TAG, "insert result id=" + id);
+        return id;
     }
 
     public int update(Subscription s) {
+        Log.d(TAG, "update id=" + s.getId() + " client=" + s.getClientId() + " route=" + s.getRouteId());
         ContentValues v = new ContentValues();
         v.put("client_id", s.getClientId());
         v.put("route_id", s.getRouteId());
@@ -37,18 +44,27 @@ public class SubscriptionRepository {
         v.put("start_date", s.getStartDate());
         v.put("end_date", s.getEndDate());
 
-        return db.update("subscriptions", v, "id = ?", new String[]{String.valueOf(s.getId())});
+        int count = db.update("subscriptions", v, "id = ?", new String[]{String.valueOf(s.getId())});
+        Log.d(TAG, "update affected rows=" + count);
+        return count;
     }
 
     public int delete(int id) {
-        return db.delete("subscriptions", "id = ?", new String[]{String.valueOf(id)});
+        Log.d(TAG, "delete id=" + id);
+        int count = db.delete("subscriptions", "id = ?", new String[]{String.valueOf(id)});
+        Log.d(TAG, "delete affected rows=" + count);
+        return count;
     }
 
     public Subscription getById(int id) {
+        Log.d(TAG, "getById id=" + id);
         try (Cursor c = db.rawQuery("SELECT * FROM subscriptions WHERE id = ?", new String[]{String.valueOf(id)})) {
-            if (!c.moveToFirst()) return null;
+            if (!c.moveToFirst()) {
+                Log.d(TAG, "getById not found");
+                return null;
+            }
 
-            return new Subscription(
+            Subscription s = new Subscription(
                     c.getInt(c.getColumnIndexOrThrow("id")),
                     c.getInt(c.getColumnIndexOrThrow("client_id")),
                     c.getInt(c.getColumnIndexOrThrow("route_id")),
@@ -56,10 +72,14 @@ public class SubscriptionRepository {
                     c.getString(c.getColumnIndexOrThrow("start_date")),
                     c.getString(c.getColumnIndexOrThrow("end_date"))
             );
+
+            Log.d(TAG, "getById found client=" + s.getClientId() + " route=" + s.getRouteId());
+            return s;
         }
     }
 
     public List<Subscription> getAll() {
+        Log.d(TAG, "getAll");
         List<Subscription> list = new ArrayList<>();
 
         try (Cursor c = db.rawQuery("SELECT * FROM subscriptions ORDER BY id", null)) {
@@ -76,6 +96,7 @@ public class SubscriptionRepository {
             }
         }
 
+        Log.d(TAG, "getAll count=" + list.size());
         return list;
     }
 }

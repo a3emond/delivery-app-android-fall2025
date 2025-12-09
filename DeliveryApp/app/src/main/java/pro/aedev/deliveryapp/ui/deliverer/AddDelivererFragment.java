@@ -1,66 +1,159 @@
 package pro.aedev.deliveryapp.ui.deliverer;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import pro.aedev.deliveryapp.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddDelivererFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import pro.aedev.deliveryapp.R;
+import pro.aedev.deliveryapp.data.repo.DelivererRepository;
+import pro.aedev.deliveryapp.databinding.FragmentAddDelivererBinding;
+import pro.aedev.deliveryapp.model.Deliverer;
+import pro.aedev.deliveryapp.ui.adapter.DelivererSpinnerAdapter;
+
+import java.util.List;
+
 public class AddDelivererFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentAddDelivererBinding binding;
+    private DelivererRepository repo;
+    private Deliverer currentSelected;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public AddDelivererFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddDelivererFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddDelivererFragment newInstance(String param1, String param2) {
-        AddDelivererFragment fragment = new AddDelivererFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = FragmentAddDelivererBinding.inflate(inflater, container, false);
+        repo = new DelivererRepository(requireContext());
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        loadDeliverers();
+
+        binding.spinnerDeliverers.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                Deliverer d = (Deliverer) binding.spinnerDeliverers.getSelectedItem();
+                currentSelected = d;
+                if (d != null) {
+                    binding.editName.setText(d.getName());
+                    binding.editAddress.setText(d.getAddress());
+                    binding.editPhone.setText(d.getPhone());
+                }
+                clearStatus();
+            }
+
+            @Override
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+                currentSelected = null;
+                clearFields();
+                clearStatus();
+            }
+        });
+
+        // Add new deliverer
+        binding.btnAddDeliverer.setOnClickListener(v -> {
+            clearStatus();
+            String name = binding.editName.getText().toString().trim();
+            String address = binding.editAddress.getText().toString().trim();
+            String phone = binding.editPhone.getText().toString().trim();
+
+            if (TextUtils.isEmpty(name)) {
+                showError(getString(R.string.deliverer_name_required));
+                return;
+            }
+
+            Deliverer d = new Deliverer();
+            d.setName(name);
+            d.setAddress(address);
+            d.setPhone(phone);
+
+            long id = repo.insert(d);
+            showSuccess(getString(R.string.deliverer_created, id));
+            loadDeliverers();
+        });
+
+        // Update selected deliverer
+        binding.btnUpdateDeliverer.setOnClickListener(v -> {
+            clearStatus();
+            if (currentSelected == null) {
+                showError(getString(R.string.error_select_deliverer_to_update));
+                return;
+            }
+
+            String name = binding.editName.getText().toString().trim();
+            String address = binding.editAddress.getText().toString().trim();
+            String phone = binding.editPhone.getText().toString().trim();
+
+            if (TextUtils.isEmpty(name)) {
+                showError(getString(R.string.deliverer_name_required));
+                return;
+            }
+
+            currentSelected.setName(name);
+            currentSelected.setAddress(address);
+            currentSelected.setPhone(phone);
+
+            repo.update(currentSelected);
+
+            showSuccess(getString(R.string.deliverer_updated));
+            loadDeliverers();
+        });
+
+        // Clear / new mode
+        binding.btnClearForm.setOnClickListener(v -> {
+            binding.spinnerDeliverers.setSelection(-1);
+            currentSelected = null;
+            clearFields();
+            clearStatus();
+        });
+
+        // Back
+        binding.btnBack.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+    }
+
+    private void loadDeliverers() {
+        List<Deliverer> list = repo.getAll();
+        DelivererSpinnerAdapter adapter = new DelivererSpinnerAdapter(requireContext(), list);
+        binding.spinnerDeliverers.setAdapter(adapter);
+    }
+
+    private void clearFields() {
+        binding.editName.setText("");
+        binding.editAddress.setText("");
+        binding.editPhone.setText("");
+    }
+
+    private void showError(String msg) {
+        binding.textStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        binding.textStatus.setText(msg);
+    }
+
+    private void showSuccess(String msg) {
+        binding.textStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        binding.textStatus.setText(msg);
+    }
+
+    private void clearStatus() {
+        binding.textStatus.setText("");
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_deliverer, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

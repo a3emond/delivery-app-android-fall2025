@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DeliveryApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="swipe_left_hint">Swipe left to continue</string>
     <string name="intro_description">Welcome to the Delivery Management App</string>
@@ -12,4 +11,52 @@
     <string name="remove_deliverer">Remove Deliverer</string>
     <string name="list_items">List</string>
     <string name="quit">Quit</string>
+
+    <string name="add_route">Add Route</string>
+    <string name="route_label_required">A route label is required</string>
+
+    <string name="are_you_sure_you_want_to_delete_route_id">
+        Are you sure you want to delete route #%1$d – %2$s?
+    </string>
+    <string name="route_deleted">Route deleted</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="delete_route">Delete route</string>
+
+    <!-- Proper formatted creation text -->
+    <string name="route_created_id">Route created → ID=%1$d</string>
+
+    <!-- Default label used when creating a route -->
+    <string name="default_route_label">Route</string>
+
+    <string name="unassign_route">Unassign Route</string>
+    <string name="back">Back</string>
+    <string name="add_deliverer_short">+</string>
+
+    <string name="no_deliverer_assigned">No deliverer assigned to this route</string>
+    <string name="current_deliverer_for_route">Current deliverer: #%1$d – %2$s</string>
+
+    <string name="error_select_route_and_deliverer">Please select both a route and a deliverer.</string>
+    <string name="error_select_route">Please select a route.</string>
+    <string name="error_route_already_unassigned">This route has no deliverer assigned.</string>
+    <string name="route_assigned_success">Deliverer assigned to route.</string>
+    <string name="route_unassigned_success">Route unassigned successfully.</string>
+
+    <!-- Add / edit deliverer -->
+    <string name="deliverer_name">Deliverer name</string>
+    <string name="deliverer_address">Address</string>
+    <string name="deliverer_phone">Phone number</string>
+    <string name="deliverer_name_required">Deliverer name is required.</string>
+    <string name="deliverer_created">Deliverer created → ID=%1$d</string>
+    <string name="deliverer_updated">Deliverer updated.</string>
+    <string name="error_select_deliverer_to_update">Please select a deliverer to update.</string>
+    <string name="update_deliverer">Update Deliverer</string>
+    <string name="clear_form">Clear form</string>
+
+    <string name="delete_deliverer">Delete Deliverer</string>
+    <string name="confirm_delete_deliverer">Are you sure you want to delete deliverer #%1$d – %2$s?</string>
+    <string name="deliverer_deleted">Deliverer removed successfully.</string>
+    <string name="error_select_deliverer">Please select a deliverer.</string>
+
+
 </resources>

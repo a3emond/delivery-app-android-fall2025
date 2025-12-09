@@ -337,6 +337,7 @@ classDiagram
 
     class data.db {
         AppDatabaseHelper
+        AppDatabase(Singleton)
     }
     class data.repo {
         RouteRepository
@@ -344,6 +345,7 @@ classDiagram
         ClientRepository
         ProductRepository
         SubscriptionRepository
+        SubscriptionLineRepository
     }
 
     class model {
@@ -358,7 +360,17 @@ classDiagram
     class util {
         RouteSuggester
         Validators
+        NavigationHelper
     }
+    ui --> ui.main
+    ui --> ui.route
+    ui --> ui.subscription
+    ui --> ui.deliverer
+    ui --> ui.list
+    ui --> ui.adapter
+
+    data --> data.db
+    data --> data.repo
 ```
 
 ------
@@ -445,7 +457,14 @@ Le menu principal contient les options suivantes :
 Un écran séparé en deux :
 
 - **Partie supérieure** : un bouton "Ajouter une route". Au clic, un message apparaît confirmant la création de la route et affichant son numéro.
+
 - **Partie inférieure** : un champ permettant d'entrer un numéro de route et un bouton "Supprimer la route". Au clic, si le numéro est valide, un message confirme la suppression; sinon, un message d'erreur apparaît.
+
+  # done 2025-12-07
+
+  ---
+
+  
 
 ## Affecter Route
 
@@ -457,12 +476,24 @@ Un écran contenant :
 
 Des messages de confirmation ou d'erreur s'affichent selon la validité des données.
 
+# done 2025-12-07
+
+---
+
+
+
 ## Ajouter un abonnement
 
 Écran divisé verticalement :
 
 - **Partie gauche (1/3 largeur)** : bouton pour enregistrer l'abonnement, bouton pour retourner au menu.
 - **Partie droite (2/3)** : champs pour nom du client, adresse, type(s) de produit(s), quantités. Un champ en bas suggère un numéro de route basé sur l'adresse; il peut être modifié.
+
+
+
+
+
+
 
 ## Retirer un abonnement
 
@@ -471,9 +502,21 @@ Des messages de confirmation ou d'erreur s'affichent selon la validité des donn
 - **Partie gauche** : boutons pour supprimer l'abonnement et revenir au menu.
 - **Partie droite** : champ pour entrer un numéro d'abonnement et bouton "Afficher". La suppression met automatiquement à jour la route concernée.
 
+
+
+
+
+
+
 ## Ajouter un livreur
 
 Même format que l'ajout d'abonnement, mais les champs concernent : nom, adresse, numéro de téléphone du livreur.
+
+# done 2025-12-07
+
+---
+
+
 
 ## Retirer un livreur
 
@@ -483,6 +526,16 @@ Un écran simple avec :
 - bouton "Supprimer le livreur de la route"
 
 Messages de confirmation ou d'erreur selon la validité du numéro.
+
+# done 2025-12-07
+
+---
+
+
+
+
+
+
 
 ## Lister
 

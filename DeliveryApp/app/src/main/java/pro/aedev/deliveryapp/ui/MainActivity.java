@@ -9,13 +9,11 @@ import pro.aedev.deliveryapp.ui.main.SplashFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         if (savedInstanceState == null) {
@@ -25,4 +23,12 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
 }
+// The first fragment is added programmatically rather than via android:name in XML.
+// If a fragment is auto-attached by the layout system, it is created outside the
+// app’s navigation flow, causing the FragmentManager to track it differently.
+// Initializing it manually ensures the navigation controller owns every fragment
+// from the start, preventing mismatched states, broken transitions, and back
+// stack inconsistencies.
+
