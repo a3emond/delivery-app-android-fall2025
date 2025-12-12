@@ -1,14 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.subscription.RemoveSubscriptionFragment">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <!-- LEFT PANEL -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:gravity="top|center_horizontal"
+        android:padding="12dp"
+        android:background="@drawable/card_background"
+        android:clipToOutline="true"
+        android:elevation="6dp">
 
-</FrameLayout>
+        <Button
+            android:id="@+id/btnDelete"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Subscription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <Button
+            android:id="@+id/btnBack"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+
+    <!-- RIGHT PANEL -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@drawable/card_background"
+        android:clipToOutline="true"
+        android:elevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Spinner -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Subscription" />
+
+            <Spinner
+                android:id="@+id/spinnerSubscriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Display button -->
+            <Button
+                android:id="@+id/btnDisplay"
+                style="@style/AppButton.Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Display Details"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Details -->
+            <TextView
+                android:id="@+id/textDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:padding="8dp"
+                android:background="@drawable/card_background"
+                android:elevation="4dp"
+                android:minHeight="100dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

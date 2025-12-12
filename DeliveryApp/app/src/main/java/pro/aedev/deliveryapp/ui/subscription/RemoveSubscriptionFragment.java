@@ -1,66 +1,154 @@
 package pro.aedev.deliveryapp.ui.subscription;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import pro.aedev.deliveryapp.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RemoveSubscriptionFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.List;
+
+import pro.aedev.deliveryapp.data.repo.ClientRepository;
+import pro.aedev.deliveryapp.data.repo.ProductRepository;
+import pro.aedev.deliveryapp.data.repo.RouteRepository;
+import pro.aedev.deliveryapp.data.repo.SubscriptionRepository;
+import pro.aedev.deliveryapp.databinding.FragmentRemoveSubscriptionBinding;
+import pro.aedev.deliveryapp.model.Client;
+import pro.aedev.deliveryapp.model.Product;
+import pro.aedev.deliveryapp.model.Route;
+import pro.aedev.deliveryapp.model.Subscription;
+import pro.aedev.deliveryapp.ui.adapter.SubscriptionSpinnerAdapter;
+
 public class RemoveSubscriptionFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentRemoveSubscriptionBinding binding;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SubscriptionRepository subscriptionRepo;
+    private ClientRepository clientRepo;
+    private RouteRepository routeRepo;
+    private ProductRepository productRepo;
 
-    public RemoveSubscriptionFragment() {
-        // Required empty public constructor
-    }
+    private List<Subscription> cachedSubscriptions;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RemoveSubscriptionFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static RemoveSubscriptionFragment newInstance(String param1, String param2) {
-        RemoveSubscriptionFragment fragment = new RemoveSubscriptionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        binding = FragmentRemoveSubscriptionBinding.inflate(inflater, container, false);
+
+        subscriptionRepo = new SubscriptionRepository(requireContext());
+        clientRepo = new ClientRepository(requireContext());
+        routeRepo = new RouteRepository(requireContext());
+        productRepo = new ProductRepository(requireContext());
+
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view,
+                              @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        loadSubscriptions();
+
+        binding.btnDisplay.setOnClickListener(v -> displaySelectedSubscription());
+        binding.btnDelete.setOnClickListener(v -> deleteSelectedSubscription());
+        binding.btnBack.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+    }
+
+
+    // ---------------------------------------------------------
+    // LOAD SUBSCRIPTIONS FOR SPINNER
+    // ---------------------------------------------------------
+    private void loadSubscriptions() {
+        cachedSubscriptions = subscriptionRepo.getAll();
+
+        SubscriptionSpinnerAdapter adapter =
+                new SubscriptionSpinnerAdapter(requireContext(), cachedSubscriptions);
+
+        binding.spinnerSubscriptions.setAdapter(adapter);
+    }
+
+
+    // ---------------------------------------------------------
+    // DISPLAY SELECTED SUBSCRIPTION DETAILS
+    // ---------------------------------------------------------
+    private void displaySelectedSubscription() {
+        clearStatus();
+
+        Subscription s = (Subscription) binding.spinnerSubscriptions.getSelectedItem();
+        if (s == null) {
+            showError("No subscription selected.");
+            return;
+        }
+
+        Client c = clientRepo.getById(s.getClientId());
+        Product p = productRepo.getById(s.getProductId());
+        Route r = routeRepo.getById(s.getRouteId());
+
+        binding.textDetails.setText(
+                "Subscription #" + s.getId() + "\n\n" +
+                        "Client: " + (c != null ? c.getName() : "?") + "\n" +
+                        "Address: " + s.getAddress() + "\n" +
+                        "Product: " + (p != null ? p.getName() : "?") + "\n" +
+                        "Quantity: " + s.getQuantity() + "\n" +
+                        "Route: " + (r != null ? r.getId() : 0) + "\n" +
+                        "Start: " + (s.getStartDate() != null ? s.getStartDate() : "-") + "\n" +
+                        "End: " + (s.getEndDate() != null ? s.getEndDate() : "-")
+        );
+    }
+
+
+    // ---------------------------------------------------------
+    // DELETE SELECTED SUBSCRIPTION
+    // ---------------------------------------------------------
+    private void deleteSelectedSubscription() {
+        clearStatus();
+
+        Subscription s = (Subscription) binding.spinnerSubscriptions.getSelectedItem();
+        if (s == null) {
+            showError("No subscription selected.");
+            return;
+        }
+
+        int count = subscriptionRepo.delete(s.getId());
+
+        if (count > 0) {
+            showSuccess("Subscription #" + s.getId() + " deleted.");
+            loadSubscriptions();
+            binding.textDetails.setText("");
+        } else {
+            showError("Failed to delete subscription.");
         }
     }
 
+
+    // ---------------------------------------------------------
+    // UI HELPERS
+    // ---------------------------------------------------------
+    private void showError(String msg) {
+        binding.textStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        binding.textStatus.setText(msg);
+    }
+
+    private void showSuccess(String msg) {
+        binding.textStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        binding.textStatus.setText(msg);
+    }
+
+    private void clearStatus() {
+        binding.textStatus.setText("");
+    }
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_remove_subscription, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

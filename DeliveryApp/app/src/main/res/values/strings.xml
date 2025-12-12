@@ -58,5 +58,32 @@
     <string name="deliverer_deleted">Deliverer removed successfully.</string>
     <string name="error_select_deliverer">Please select a deliverer.</string>
 
+    <!-- Add Subscription -->
+    <string name="save_subscription">Save Subscription</string>
+    <string name="select_client">Select Client</string>
+    <string name="add_client_short">+</string>
+    <string name="select_product">Select Product</string>
+    <string name="select_route">Select Route</string>
+    <string name="quantity">Quantity</string>
+    <string name="address">Address</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+
+    <!-- Client creation dialog -->
+    <string name="client_name">Client Name</string>
+    <string name="phone_optional">Phone (optional)</string>
+
+    <string name="select_subscription">Select Subscription</string>
+    <string name="delete_subscription">Delete Subscription</string>
+    <string name="display_details">Display Details</string>
+
+    <string name="list_deliverers">Deliverers</string>
+    <string name="list_subscribers">Subscribers</string>
+    <string name="list_routes">Routes</string>
+    <string name="list_products">Products</string>
+
+    <string name="deliverers">Deliverers</string>
+    <string name="deliveries_for_selected">Deliveries for selected deliverer</string>
+
 
 </resources>

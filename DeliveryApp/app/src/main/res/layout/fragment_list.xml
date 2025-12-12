@@ -1,14 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.list.ListFragment">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <!-- LEFT PANEL -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:gravity="top|center_horizontal"
+        android:padding="12dp"
+        android:background="@drawable/card_background"
+        android:clipToOutline="true"
+        android:elevation="6dp">
 
-</FrameLayout>
+        <Button
+            android:id="@+id/btnDeliverers"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/list_deliverers" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <Button
+            android:id="@+id/btnSubscribers"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/list_subscribers" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <Button
+            android:id="@+id/btnRoutes"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/list_routes" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp" />
+
+        <Button
+            android:id="@+id/btnProducts"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/list_products" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <Button
+            android:id="@+id/btnBack"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back" />
+
+    </LinearLayout>
+
+    <!-- RIGHT PANEL CONTAINER -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/rightContainer"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:paddingStart="16dp" />
+
+</LinearLayout>

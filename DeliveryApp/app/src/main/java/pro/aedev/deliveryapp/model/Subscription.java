@@ -11,19 +11,26 @@ public class Subscription implements Parcelable {
     private String address;
     private String startDate;
     private String endDate;
+    private int productId;
+    private int quantity;
 
     public Subscription() {}
 
     public Subscription(int id, int clientId, int routeId,
-                        String address, String startDate, String endDate) {
+                        String address, String startDate, String endDate,
+                        int productId, int quantity) {
+
         this.id = id;
         this.clientId = clientId;
         this.routeId = routeId;
         this.address = address;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.productId = productId;
+        this.quantity = quantity;
     }
 
+    // Parcelable constructor
     protected Subscription(Parcel in) {
         id = in.readInt();
         clientId = in.readInt();
@@ -31,6 +38,8 @@ public class Subscription implements Parcelable {
         address = in.readString();
         startDate = in.readString();
         endDate = in.readString();
+        productId = in.readInt();
+        quantity = in.readInt();
     }
 
     @Override
@@ -41,6 +50,8 @@ public class Subscription implements Parcelable {
         dest.writeString(address);
         dest.writeString(startDate);
         dest.writeString(endDate);
+        dest.writeInt(productId);
+        dest.writeInt(quantity);
     }
 
     @Override
@@ -60,6 +71,7 @@ public class Subscription implements Parcelable {
         }
     };
 
+    // Getters and setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
@@ -77,4 +89,10 @@ public class Subscription implements Parcelable {
 
     public String getEndDate() { return endDate; }
     public void setEndDate(String endDate) { this.endDate = endDate; }
+
+    public int getProductId() { return productId; }
+    public void setProductId(int productId) { this.productId = productId; }
+
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 }

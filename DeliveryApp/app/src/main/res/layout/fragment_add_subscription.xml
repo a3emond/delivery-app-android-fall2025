@@ -1,14 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.subscription.AddSubscriptionFragment">
+    android:orientation="horizontal"
+    android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <!-- LEFT PANEL (buttons + status) -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:gravity="top|center_horizontal"
+        android:padding="12dp"
+        android:background="@drawable/card_background"
+        android:clipToOutline="true"
+        android:elevation="6dp">
 
-</FrameLayout>
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/save_subscription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <Button
+            android:id="@+id/btnBack"
+            style="@style/AppButton.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/back" />
+
+        <TextView
+            android:id="@+id/textStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- RIGHT PANEL (form inputs) -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@drawable/card_background"
+        android:clipToOutline="true"
+        android:elevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Client row: spinner + '+' -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_client" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <Spinner
+                    android:id="@+id/spinnerClients"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dropdown" />
+
+                <Button
+                    android:id="@+id/btnAddClient"
+                    style="@style/AppButton.Primary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/add_client_short" />
+            </LinearLayout>
+
+            <!-- Address -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address" />
+
+            <EditText
+                android:id="@+id/editAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Product -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_product" />
+
+            <Spinner
+                android:id="@+id/spinnerProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Quantity -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quantity" />
+
+            <EditText
+                android:id="@+id/editQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Route -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_route" />
+
+            <Spinner
+                android:id="@+id/spinnerRoutes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Start date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_date" />
+
+            <EditText
+                android:id="@+id/editStartDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="YYYY-MM-DD"
+                android:layout_marginBottom="16dp" />
+
+            <!-- End date -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/end_date" />
+
+            <EditText
+                android:id="@+id/editEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="YYYY-MM-DD" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -17,7 +17,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_ROUTES =
             "CREATE TABLE routes (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "label TEXT," +
+                    "label TEXT NOT NULL," +
                     "deliverer_id INTEGER" +
                     ");";
 
@@ -39,7 +39,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
                     "phone TEXT" +
                     ");";
 
-    // PRODUCTS
+    // PRODUCTS (static list)
     private static final String CREATE_PRODUCTS =
             "CREATE TABLE products (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -47,24 +47,22 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
                     "type TEXT NOT NULL" +
                     ");";
 
-    // SUBSCRIPTIONS
+    private static final String SEED_PRODUCTS =
+            "INSERT INTO products (name, type) VALUES " +
+                    "('Magazine', 'magazine')," +
+                    "('Journal', 'journal');";
+
+    // SUBSCRIPTIONS — simplified (one product per subscription)
     private static final String CREATE_SUBSCRIPTIONS =
             "CREATE TABLE subscriptions (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "client_id INTEGER NOT NULL," +
                     "route_id INTEGER NOT NULL DEFAULT 0," +
                     "address TEXT NOT NULL," +
+                    "product_id INTEGER NOT NULL," +
+                    "quantity INTEGER NOT NULL," +
                     "start_date TEXT," +
                     "end_date TEXT" +
-                    ");";
-
-    // SUBSCRIPTION_LINES
-    private static final String CREATE_SUBSCRIPTION_LINES =
-            "CREATE TABLE subscription_lines (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "subscription_id INTEGER NOT NULL," +
-                    "product_id INTEGER NOT NULL," +
-                    "quantity INTEGER NOT NULL" +
                     ");";
 
     @Override
@@ -74,12 +72,13 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CLIENTS);
         db.execSQL(CREATE_PRODUCTS);
         db.execSQL(CREATE_SUBSCRIPTIONS);
-        db.execSQL(CREATE_SUBSCRIPTION_LINES);
+
+        // Seed product table
+        db.execSQL(SEED_PRODUCTS);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS subscription_lines");
         db.execSQL("DROP TABLE IF EXISTS subscriptions");
         db.execSQL("DROP TABLE IF EXISTS products");
         db.execSQL("DROP TABLE IF EXISTS clients");

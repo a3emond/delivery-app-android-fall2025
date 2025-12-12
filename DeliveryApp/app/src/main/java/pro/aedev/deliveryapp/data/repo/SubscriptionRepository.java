@@ -22,27 +22,43 @@ public class SubscriptionRepository {
         Log.d(TAG, "Repository initialized");
     }
 
+    // INSERT (product_id MUST be set here)
     public long insert(Subscription s) {
-        Log.d(TAG, "insert client=" + s.getClientId() + " route=" + s.getRouteId());
+        Log.d(TAG, "insert client=" + s.getClientId() +
+                " route=" + s.getRouteId() +
+                " product=" + s.getProductId() +
+                " qty=" + s.getQuantity());
+
         ContentValues v = new ContentValues();
         v.put("client_id", s.getClientId());
         v.put("route_id", s.getRouteId());
         v.put("address", s.getAddress());
         v.put("start_date", s.getStartDate());
         v.put("end_date", s.getEndDate());
+        v.put("product_id", s.getProductId());
+        v.put("quantity", s.getQuantity());
+
         long id = db.insert("subscriptions", null, v);
         Log.d(TAG, "insert result id=" + id);
         return id;
     }
 
+    // UPDATE (product_id is NOT updated — immutable by RULE)
     public int update(Subscription s) {
-        Log.d(TAG, "update id=" + s.getId() + " client=" + s.getClientId() + " route=" + s.getRouteId());
+        Log.d(TAG, "update id=" + s.getId() +
+                " client=" + s.getClientId() +
+                " route=" + s.getRouteId() +
+                " qty=" + s.getQuantity());
+
         ContentValues v = new ContentValues();
         v.put("client_id", s.getClientId());
         v.put("route_id", s.getRouteId());
         v.put("address", s.getAddress());
         v.put("start_date", s.getStartDate());
         v.put("end_date", s.getEndDate());
+        v.put("quantity", s.getQuantity());
+
+        // product_id intentionally omitted
 
         int count = db.update("subscriptions", v, "id = ?", new String[]{String.valueOf(s.getId())});
         Log.d(TAG, "update affected rows=" + count);
@@ -58,6 +74,7 @@ public class SubscriptionRepository {
 
     public Subscription getById(int id) {
         Log.d(TAG, "getById id=" + id);
+
         try (Cursor c = db.rawQuery("SELECT * FROM subscriptions WHERE id = ?", new String[]{String.valueOf(id)})) {
             if (!c.moveToFirst()) {
                 Log.d(TAG, "getById not found");
@@ -70,10 +87,16 @@ public class SubscriptionRepository {
                     c.getInt(c.getColumnIndexOrThrow("route_id")),
                     c.getString(c.getColumnIndexOrThrow("address")),
                     c.getString(c.getColumnIndexOrThrow("start_date")),
-                    c.getString(c.getColumnIndexOrThrow("end_date"))
+                    c.getString(c.getColumnIndexOrThrow("end_date")),
+                    c.getInt(c.getColumnIndexOrThrow("product_id")),
+                    c.getInt(c.getColumnIndexOrThrow("quantity"))
             );
 
-            Log.d(TAG, "getById found client=" + s.getClientId() + " route=" + s.getRouteId());
+            Log.d(TAG, "getById found client=" + s.getClientId() +
+                    " route=" + s.getRouteId() +
+                    " product=" + s.getProductId() +
+                    " qty=" + s.getQuantity());
+
             return s;
         }
     }
@@ -90,7 +113,9 @@ public class SubscriptionRepository {
                         c.getInt(c.getColumnIndexOrThrow("route_id")),
                         c.getString(c.getColumnIndexOrThrow("address")),
                         c.getString(c.getColumnIndexOrThrow("start_date")),
-                        c.getString(c.getColumnIndexOrThrow("end_date"))
+                        c.getString(c.getColumnIndexOrThrow("end_date")),
+                        c.getInt(c.getColumnIndexOrThrow("product_id")),
+                        c.getInt(c.getColumnIndexOrThrow("quantity"))
                 );
                 list.add(s);
             }
