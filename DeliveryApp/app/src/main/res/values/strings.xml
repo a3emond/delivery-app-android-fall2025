@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">DeliveryApp</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="swipe_left_hint">Swipe left to continue</string>
     <string name="intro_description">Welcome to the Delivery Management App</string>
     <string name="manage_routes">Manage Routes</string>
@@ -72,10 +71,6 @@
     <!-- Client creation dialog -->
     <string name="client_name">Client Name</string>
     <string name="phone_optional">Phone (optional)</string>
-
-    <string name="select_subscription">Select Subscription</string>
-    <string name="delete_subscription">Delete Subscription</string>
-    <string name="display_details">Display Details</string>
 
     <string name="list_deliverers">Deliverers</string>
     <string name="list_subscribers">Subscribers</string>

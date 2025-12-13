@@ -14,6 +14,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.model.Deliverer;
 
+/**
+ * Spinner adapter for deliverers. Displays deliverer ID and name in a single line.
+ */
 public class DelivererSpinnerAdapter extends ArrayAdapter<Deliverer> {
 
     public DelivererSpinnerAdapter(@NonNull Context context, @NonNull List<Deliverer> items) {

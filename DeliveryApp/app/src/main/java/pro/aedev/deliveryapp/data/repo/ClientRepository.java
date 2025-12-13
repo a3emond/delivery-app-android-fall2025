@@ -12,6 +12,9 @@ import pro.aedev.deliveryapp.model.Client;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for managing Client entities in the database.
+ */
 public class ClientRepository {
 
     private static final String TAG = "ClientRepository";

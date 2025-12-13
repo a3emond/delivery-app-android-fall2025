@@ -12,6 +12,9 @@ import pro.aedev.deliveryapp.model.Subscription;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    * Repository for managing Subscription entities in the database.
+ */
 public class SubscriptionRepository {
 
     private static final String TAG = "SubscriptionRepository";

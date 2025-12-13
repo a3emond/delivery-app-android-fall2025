@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 import pro.aedev.deliveryapp.model.Product;
-
+// Adapter for displaying Product objects in a Spinner name-only format
 public class ProductSpinnerAdapter extends ArrayAdapter<Product> {
 
     public ProductSpinnerAdapter(@NonNull Context context, @NonNull List<Product> products) {

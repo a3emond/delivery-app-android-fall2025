@@ -12,6 +12,9 @@ import pro.aedev.deliveryapp.model.Route;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for managing Route entities in the database.
+ */
 public class RouteRepository {
 
     private static final String TAG = "RouteRepository";

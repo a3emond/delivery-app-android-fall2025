@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * Database helper for managing delivery app data.
+ */
 public class AppDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "delivery.db";

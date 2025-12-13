@@ -12,6 +12,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.R;
 
+/**
+ * Adapter for displaying delivery items in a RecyclerView for deliverers.
+ */
 public class DelivererDeliveryAdapter extends RecyclerView.Adapter<DelivererDeliveryAdapter.ViewHolder> {
 
     public static class DeliveryItem {

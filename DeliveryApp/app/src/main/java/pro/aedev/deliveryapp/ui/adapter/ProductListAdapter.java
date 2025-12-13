@@ -13,6 +13,9 @@ import java.util.List;
 import pro.aedev.deliveryapp.R;
 import pro.aedev.deliveryapp.model.Product;
 
+/**
+ * Adapter for displaying a list of products in a RecyclerView.
+ */
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
 
     public interface OnProductClickListener {

@@ -13,6 +13,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.model.Subscription;
 
+/**
+ * Adapter for displaying Subscription items in a Spinner. (single-line text representation subscription ID and client ID)
+ */
 public class SubscriptionSpinnerAdapter extends ArrayAdapter<Subscription> {
 
     public SubscriptionSpinnerAdapter(@NonNull Context ctx, @NonNull List<Subscription> items) {

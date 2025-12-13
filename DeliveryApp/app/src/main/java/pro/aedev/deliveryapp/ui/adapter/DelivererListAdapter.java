@@ -13,6 +13,9 @@ import java.util.List;
 import pro.aedev.deliveryapp.R;
 import pro.aedev.deliveryapp.model.Deliverer;
 
+/**
+ * Adapter for displaying a list of deliverers in a RecyclerView.
+ */
 public class DelivererListAdapter extends RecyclerView.Adapter<DelivererListAdapter.ViewHolder> {
 
     public interface OnDelivererClickListener {

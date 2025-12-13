@@ -13,6 +13,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.model.Client;
 
+/**
+ * Adapter for displaying Client objects in a Spinner in a single line format. (id – name)
+ */
 public class ClientSpinnerAdapter extends ArrayAdapter<Client> {
 
     public ClientSpinnerAdapter(@NonNull Context ctx, @NonNull List<Client> items) {

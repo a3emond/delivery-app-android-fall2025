@@ -12,6 +12,9 @@ import pro.aedev.deliveryapp.model.Deliverer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for managing Deliverer entities in the database.
+ */
 public class DelivererRepository {
 
     private static final String TAG = "DelivererRepository";

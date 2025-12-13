@@ -12,6 +12,9 @@ import pro.aedev.deliveryapp.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for managing Product entities in the SQLite database.
+ */
 public class ProductRepository {
 
     private static final String TAG = "ProductRepository";

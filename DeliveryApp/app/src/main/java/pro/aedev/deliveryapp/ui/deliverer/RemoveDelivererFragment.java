@@ -43,15 +43,18 @@ public class RemoveDelivererFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loadDeliverers();
 
+        // Set up button listeners
         binding.btnRemoveDeliverer.setOnClickListener(v -> {
             clearStatus();
 
+            // Get selected deliverer
             Deliverer selected = (Deliverer) binding.spinnerDeliverers.getSelectedItem();
             if (selected == null) {
                 showError(getString(R.string.error_select_deliverer));
                 return;
             }
 
+            // Confirm deletion alert dialog + logic call
             confirmDelete(selected);
         });
 
@@ -60,20 +63,22 @@ public class RemoveDelivererFragment extends Fragment {
         });
     }
 
+    // Confirm deletion dialog and logic
     private void confirmDelete(Deliverer d) {
         new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.delete_deliverer)
                 .setMessage(getString(R.string.confirm_delete_deliverer, d.getId(), d.getName()))
                 .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                    unassignIfNeeded(d.getId());
+                    unassignIfNeeded(d.getId()); // Unassign from routes if needed
                     delivererRepo.delete(d.getId());
                     showSuccess(getString(R.string.deliverer_deleted));
-                    loadDeliverers();
+                    loadDeliverers(); // Refresh deliverer list
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 
+    // Unassign deliverer from routes if assigned
     private void unassignIfNeeded(int delivererId) {
         List<Route> allRoutes = routeRepo.getAll();
         for (Route r : allRoutes) {
@@ -90,6 +95,7 @@ public class RemoveDelivererFragment extends Fragment {
         binding.spinnerDeliverers.setAdapter(adapter);
     }
 
+    // Status message helpers
     private void showError(String msg) {
         binding.textStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
         binding.textStatus.setText(msg);
@@ -104,6 +110,7 @@ public class RemoveDelivererFragment extends Fragment {
         binding.textStatus.setText("");
     }
 
+    // Clean up binding
     @Override
     public void onDestroyView() {
         super.onDestroyView();

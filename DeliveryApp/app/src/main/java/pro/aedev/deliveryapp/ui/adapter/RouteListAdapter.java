@@ -12,9 +12,11 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.R;
 import pro.aedev.deliveryapp.data.repo.DelivererRepository;
-import pro.aedev.deliveryapp.model.Deliverer;
 import pro.aedev.deliveryapp.model.Route;
 
+/**
+ * Adapter for displaying a list of Routes in a RecyclerView.
+ */
 public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.ViewHolder> {
 
     public interface OnRouteClickListener {

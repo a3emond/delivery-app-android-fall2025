@@ -12,6 +12,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.R;
 
+/**
+ * Adapter for displaying product delivery information in a grid layout.
+ */
 public class ProductDeliveryGridAdapter extends RecyclerView.Adapter<ProductDeliveryGridAdapter.ViewHolder> {
 
     public static class Item {

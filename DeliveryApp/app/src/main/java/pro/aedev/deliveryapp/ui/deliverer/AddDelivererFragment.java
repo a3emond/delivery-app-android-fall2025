@@ -39,8 +39,9 @@ public class AddDelivererFragment extends Fragment {
                               @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        loadDeliverers();
+        loadDeliverers(); // Load deliverers into spinner
 
+        // Handle spinner selection
         binding.spinnerDeliverers.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
@@ -125,6 +126,7 @@ public class AddDelivererFragment extends Fragment {
         });
     }
 
+    // Load deliverers into spinner
     private void loadDeliverers() {
         List<Deliverer> list = repo.getAll();
         DelivererSpinnerAdapter adapter = new DelivererSpinnerAdapter(requireContext(), list);
@@ -137,6 +139,7 @@ public class AddDelivererFragment extends Fragment {
         binding.editPhone.setText("");
     }
 
+    // Status display methods
     private void showError(String msg) {
         binding.textStatus.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
         binding.textStatus.setText(msg);
@@ -151,6 +154,7 @@ public class AddDelivererFragment extends Fragment {
         binding.textStatus.setText("");
     }
 
+    // Clean up binding
     @Override
     public void onDestroyView() {
         super.onDestroyView();

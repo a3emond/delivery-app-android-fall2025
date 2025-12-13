@@ -13,6 +13,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.model.Route;
 
+/**
+ * Adapter for displaying Route objects in a Spinner. Each item shows the route ID and label in a single line.
+ */
 public class RouteSpinnerAdapter extends ArrayAdapter<Route> {
 
     public RouteSpinnerAdapter(@NonNull Context context, @NonNull List<Route> routes) {

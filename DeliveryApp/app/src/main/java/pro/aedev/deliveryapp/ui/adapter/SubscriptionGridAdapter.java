@@ -12,6 +12,9 @@ import java.util.List;
 
 import pro.aedev.deliveryapp.R;
 
+/**
+ * Adapter for displaying subscription items in a grid layout (RecyclerView).
+ */
 public class SubscriptionGridAdapter extends RecyclerView.Adapter<SubscriptionGridAdapter.ViewHolder> {
 
     public static class Item {

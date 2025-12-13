@@ -3,6 +3,9 @@ package pro.aedev.deliveryapp.data.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Singleton class to manage the SQLite database instance.
+ */
 public class AppDatabase {
 
     private static AppDatabase instance;
